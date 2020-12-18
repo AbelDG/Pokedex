@@ -2,11 +2,11 @@
     &-header {
         // flex-grow: 1;
         width: 100%;
-        background-image: url('/images/pokemon-header.png'), url('/images/pokemon-header.png'), url('/images/fondo-header.jpg');
-        background-repeat: no-repeat, no-repeat, no-repeat;
-        background-position: 92%, 8%, 50%;
+        background-image: url('/images/pokemon-header.png'), url('/images/pokemon-header.png'), url('/images/fondo-header.jpg'), url('/images/fondo-main.png');
+        background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+        background-position: 92%, 8%, 50%, 0%;
         // background-size: 400px, 400px, 400px;
-        background-size: 20%, 20%, 20%;
+        background-size: 20%, 20%, 20%, 20%;
         background-color: #ffffff;
         &-img {
             width: 100%;

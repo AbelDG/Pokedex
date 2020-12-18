@@ -1,8 +1,53 @@
 .main {
     &-content {
-        // flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         width: 70%;
         background-color: red;
-        font-size: 20px;
+        background-image: url('/images/fondo-main.png');
+        background-color: #ffffff;
+        background-size: 20%;
+        &-searcher {
+            width: 70%;
+            text-align: center;
+            &-default {
+                width: 100%;
+                height: 50%;
+                background-color: #313131;
+                color: #ffffff;
+                // font-family: 'Ubuntu Condensed', sans-serif;
+                font-family: 'News Cycle', sans-serif;
+                h2 {
+                    font-size: 3.5rem;
+                    letter-spacing: 1px;
+                    padding-top: 30px;
+                    padding-bottom: 30px;
+                    margin: 0 auto;
+                }
+                &-input {
+                    font-family: sans-serif;
+                    width: 40%;
+                    height: 4vh;
+                    font-size: 2.5rem;
+                    text-align: center;
+                    border-radius: 20px;
+                }
+                h3 {
+                    font-family: 'IBM Plex Sans Condensed', sans-serif;
+                    font-size: 2rem;
+                    padding-top: 30px;
+                    padding-bottom: 30px;
+                    margin: 0 auto;
+                }
+            }
+            &-advanced {
+                background-color: #ffffff;
+                font-size: 20px;
+                &-options {}
+                &-desplegable {}
+            }
+        }
     }
 }
