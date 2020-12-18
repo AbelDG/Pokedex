@@ -1,6 +1,7 @@
 //-----------------------------------------------------------| MAIN |-----------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     contentSearcher.busquedaAvanzada.toggle("blind", -1);
+
 });
 
 

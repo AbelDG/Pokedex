@@ -1,90 +1,15 @@
-const getAllPokemon = async() => {
-    let data = {};
-    try {
-        const resp = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=2000`);
-        data = await resp.json();
-    } catch (error) {
-        console.log(error);
-    }
-    return data;
-}
+const getTypes = async() => {
+    let types = [];
+    let datos = await getTypesAPI();
+    Object.values(datos).forEach(type => {
+        types.push(type.name.charAt(0).toUpperCase() + type.name.slice(1));
+    });
 
-const getPokemonByName = async(pokemon) => {
-    let data = {};
-    try {
-        const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`);
-        data = await resp.json();
-    } catch (error) {
-        console.log(error);
-    }
-    console.log(data);
-    return data;
+    return types;
 
 }
 
-const searchPokemon = async(target) => {
-    let allPokemon = await getAllPokemon();
-    pokeCard.innerHTML = '';
-    Object.values(allPokemon.results).forEach((pokemon) => {
-        if (pokemon.name === target.value) {
-            drawPokemonCard(pokemon);
-        }
-    })
-}
-
-const drawPokemonCard = async(pokemon) => {
-    let datosPokemon = await getPokemonByName(pokemon);
-    let newPokemon = {
-        id: datosPokemon.id,
-        img: datosPokemon.sprites.other.dream_world.front_default,
-        nombre: datosPokemon.name.charAt(0).toUpperCase() + datosPokemon.name.slice(1),
-        tipo: {
-            elemento: convertTypesEN_to_ESP(getTypes(datosPokemon.types)),
-            color: getColorType(getTypes(datosPokemon.types))
-        },
-        exp_base: datosPokemon.base_experience,
-        stats: {
-            hp: datosPokemon.stats[0].base_stat,
-            ataque: datosPokemon.stats[1].base_stat,
-            defensa: datosPokemon.stats[2].base_stat,
-            ataqueEspecial: datosPokemon.stats[3].base_stat,
-            defensaEspecial: datosPokemon.stats[4].base_stat,
-            velocidad: datosPokemon.stats[5].base_stat,
-        }
-    }
-
-
-
-    const clone = template.cloneNode(true);
-
-    clone.querySelector('.card-body-img').setAttribute('src', newPokemon.img);
-    clone.querySelector('.card-body-title').innerHTML = `${newPokemon.nombre}  <span>#${newPokemon.id}</span>`;
-
-    clone.querySelector('.card-body-text').innerHTML = `Exp Base: <span>${newPokemon.exp_base}</span>`;
-    clone.querySelector('.card-body-text').innerHTML += '<br><br>';
-    clone.querySelector('.card-body-text').innerHTML += 'Tipo: ';
-    for (let i = 0; i < newPokemon.tipo.elemento.length; i++) {
-        clone.querySelector('.card-body-text').innerHTML += `<span ${newPokemon.tipo.color[i]}>${newPokemon.tipo.elemento[i]}</span>`;
-        clone.querySelector('.card-body-text').innerHTML += ' ';
-    }
-
-
-    clone.querySelectorAll('.card-footer-stats h3')[0].textContent = newPokemon.stats.hp;
-    clone.querySelectorAll('.card-footer-stats h3')[1].textContent = newPokemon.stats.ataque;
-    clone.querySelectorAll('.card-footer-stats h3')[2].textContent = newPokemon.stats.defensa;
-    clone.querySelectorAll('.card-footer-stats h3')[3].textContent = newPokemon.stats.ataqueEspecial;
-    clone.querySelectorAll('.card-footer-stats h3')[4].textContent = newPokemon.stats.defensaEspecial;
-    clone.querySelectorAll('.card-footer-stats h3')[5].textContent = newPokemon.stats.velocidad;
-
-
-    fragment.appendChild(clone);
-    pokeCard.appendChild(fragment);
-}
-
-
-
-
-const getTypes = (datos) => {
+const getTypesOfPokemon = (datos) => {
     let arrayTipos = [];
     Object.values(datos).forEach(dato => {
         arrayTipos.push(dato.type.name);
@@ -92,83 +17,12 @@ const getTypes = (datos) => {
     return arrayTipos;
 }
 
-const convertTypesEN_to_ESP = (types) => {
-    let tiposESP = [];
-    types.forEach((type) => {
-        switch (type) {
-            case 'normal':
-                tiposESP.push('Normal');
-                break;
-            case 'fighting':
-                tiposESP.push('Luchador');
-                break;
-            case 'flying':
-                tiposESP.push('Volador');
-                break;
-            case 'poison':
-                tiposESP.push('Veneno');
-                break;
-            case 'ground':
-                tiposESP.push('Tierra');
-                break;
-            case 'rock':
-                tiposESP.push('Roca');
-                break;
-            case 'bug':
-                tiposESP.push('Bicho');
-                break;
-            case 'ghost':
-                tiposESP.push('Fantasma');
-                break;
-            case 'steel':
-                tiposESP.push('Metal');
-                break;
-            case 'fire':
-                tiposESP.push('Fuego');
-                break;
-            case 'water':
-                tiposESP.push('Agua');
-                break;
-            case 'grass':
-                tiposESP.push('Planta');
-                break;
-            case 'electric':
-                tiposESP.push('Eléctrico');
-                break;
-            case 'psychic':
-                tiposESP.push('Psíquico');
-                break;
-            case 'ice':
-                tiposESP.push('Hielo');
-                break;
-            case 'dragon':
-                tiposESP.push('Dragón');
-                break;
-            case 'dark':
-                tiposESP.push('Siniestro');
-                break;
-            case 'fairy':
-                tiposESP.push('Hada');
-                break;
-            case 'unknown':
-                tiposESP.push('Desconocido');
-                break;
-            case 'shadow':
-                tiposESP.push('Sombra');
-                break;
-
-            default:
-
-        }
-    });
-    return tiposESP;
-}
 
 
 const getColorType = (types) => {
     let arrayColores = [];
     Object.values(types).forEach(type => {
-        switch (type) {
+        switch (type.toLowerCase()) {
             case 'normal':
                 arrayColores.push('style="background:gray; color:#ffffff""');
                 break;
@@ -224,7 +78,7 @@ const getColorType = (types) => {
                 arrayColores.push('style="background:#c538ae; color:#ffffff"');
                 break;
             case 'unknown':
-                arrayColores.push('style="background:#555555; color:#ffffff"');
+                arrayColores.push('style="background:#222222; color:#ffffff"');
                 break;
             case 'shadow':
                 arrayColores.push('style="background:#430249; color:#ffffff"');
@@ -235,4 +89,83 @@ const getColorType = (types) => {
         }
     })
     return arrayColores;
+}
+
+const searchPokemon = async(target) => {
+    let allPokemon = await getAllPokemonAPI();
+    pokeCard.innerHTML = '';
+    Object.values(allPokemon.results).forEach((pokemon) => {
+        if (pokemon.name === target.value) {
+            drawPokemonCard(pokemon);
+        }
+    })
+}
+
+const drawPokemonCard = async(pokemon) => {
+    let datosPokemon = await getPokemonByNameAPI(pokemon);
+    let newPokemon = {
+        id: datosPokemon.id,
+        img: datosPokemon.sprites.other.dream_world.front_default,
+        nombre: datosPokemon.name.charAt(0).toUpperCase() + datosPokemon.name.slice(1),
+        tipo: {
+            elemento: getTypesOfPokemon(datosPokemon.types),
+            color: getColorType(getTypesOfPokemon(datosPokemon.types))
+        },
+        exp_base: datosPokemon.base_experience,
+        stats: {
+            hp: datosPokemon.stats[0].base_stat,
+            ataque: datosPokemon.stats[1].base_stat,
+            defensa: datosPokemon.stats[2].base_stat,
+            ataqueEspecial: datosPokemon.stats[3].base_stat,
+            defensaEspecial: datosPokemon.stats[4].base_stat,
+            velocidad: datosPokemon.stats[5].base_stat,
+        }
+    }
+
+
+
+    const clone = templates.pokeCard.cloneNode(true);
+
+    clone.querySelector('.card-body-img').setAttribute('src', newPokemon.img);
+    clone.querySelector('.card-body-title').innerHTML = `${newPokemon.nombre}  <span>#${newPokemon.id}</span>`;
+
+    clone.querySelector('.card-body-text').innerHTML = `Exp Base: <span>${newPokemon.exp_base}</span>`;
+    clone.querySelector('.card-body-text').innerHTML += '<br><br>';
+    clone.querySelector('.card-body-text').innerHTML += 'Tipo: ';
+    for (let i = 0; i < newPokemon.tipo.elemento.length; i++) {
+        clone.querySelector('.card-body-text').innerHTML += `<span ${newPokemon.tipo.color[i]}>${newPokemon.tipo.elemento[i]}</span>`;
+        clone.querySelector('.card-body-text').innerHTML += ' ';
+    }
+
+
+    clone.querySelectorAll('.card-footer-stats h3')[0].textContent = newPokemon.stats.hp;
+    clone.querySelectorAll('.card-footer-stats h3')[1].textContent = newPokemon.stats.ataque;
+    clone.querySelectorAll('.card-footer-stats h3')[2].textContent = newPokemon.stats.defensa;
+    clone.querySelectorAll('.card-footer-stats h3')[3].textContent = newPokemon.stats.ataqueEspecial;
+    clone.querySelectorAll('.card-footer-stats h3')[4].textContent = newPokemon.stats.defensaEspecial;
+    clone.querySelectorAll('.card-footer-stats h3')[5].textContent = newPokemon.stats.velocidad;
+
+
+    fragment.appendChild(clone);
+    pokeCard.appendChild(fragment);
+}
+
+
+
+const drawAdvancedSearcher = async() => {
+    let elementTypes = await getTypes();
+    let colorTypes = getColorType(await getTypes());
+    const clone = templates.searcherAdvanced.cloneNode(true);
+    for (let i = 0; i < elementTypes.length; i++) {
+        clone.querySelector('.main-content-searcher-advanced-options-types').innerHTML += `
+        <div>
+            <div class="main-content-searcher-advanced-options-types-type" ${colorTypes[i]}>${elementTypes[i]}</div>
+            <i class="fas fa-circle main-content-searcher-advanced-options-types-checkType"></i>
+        </div>
+        `;
+    }
+    generalidades.fragment.appendChild(clone);
+    contentSearcher.busquedaAvanzada.append((generalidades.fragment));
+
+
 }

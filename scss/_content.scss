@@ -1,14 +1,15 @@
 .main {
     &-content {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        width: 70%;
+        width: 90%;
         background-color: red;
         background-image: url('/images/fondo-main.png');
-        background-color: #ffffff;
+        background-color: #242424;
         background-size: 20%;
+        background-attachment: fixed;
         &-searcher {
             width: 70%;
             text-align: center;
@@ -43,11 +44,91 @@
                 }
             }
             &-advanced {
-                background-color: #ffffff;
+                display: flex;
+                flex-direction: column;
+                background-color: #575757;
+                color: #ffffff;
                 font-size: 20px;
-                &-options {}
-                &-desplegable {}
+                &-options {
+                    height: 55vh;
+                    z-index: 20;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    justify-items: center;
+                    &-types {
+                        width: 30%;
+                        display: flex;
+                        flex-direction: column;
+                        flex-wrap: wrap;
+                        // justify-content: center;
+                        justify-items: center;
+                        &-type {
+                            width: 5.5em;
+                            text-align: center;
+                            font-family: 'News Cycle', sans-serif;
+                            font-size: 1em;
+                            display: inline-block;
+                            border-radius: 0.25em;
+                            height: 1.5em;
+                            margin: 10px;
+                            border: 2px solid #aaaaaa;
+                        }
+                        &-checkType {
+                            cursor: pointer;
+                            // background-color: red;
+                        }
+                    }
+                    &-others {
+                        width: 50%;
+                    }
+                }
+                &-desplegable {
+                    z-index: 30;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    width: 100%;
+                    height: 4vh;
+                    margin-top: 40px;
+                    &-box-left {
+                        flex-grow: 1;
+                        color: #ffffff;
+                        background-color: #ffffff;
+                        height: 0;
+                        border-bottom: 100px solid #ffffff;
+                        border-left: 40px solid #ffffff;
+                        border-right: 100px solid #575757;
+                    }
+                    &-box-center {
+                        flex-grow: 1;
+                        h4 {
+                            font-family: 'IBM Plex Sans Condensed', sans-serif;
+                            margin-top: -6vh;
+                            display: inline;
+                        }
+                        &-button {
+                            cursor: pointer;
+                        }
+                    }
+                    &-box-right {
+                        flex-grow: 1;
+                        color: #ffffff;
+                        background-color: #ffffff;
+                        height: 0;
+                        border-bottom: 100px solid #ffffff;
+                        border-left: 100px solid #575757;
+                        border-right: 40px solid #ffffff;
+                    }
+                }
             }
+        }
+        &-pokecards {
+            width: 70%;
+            text-align: center;
+            background-color: #ffffff;
+            font-size: 30px;
+            z-index: 100;
         }
     }
 }
